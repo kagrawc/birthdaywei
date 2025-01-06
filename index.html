@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>螃蟹遊戲</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        img {
+            width: 300px; /* 可以根據需要調整大小 */
+            height: auto; /* 自動調整高度 */
+            margin-bottom: 20px; /* 圖片與下方內容的間距 */
+        }
+    </style>
+</head>
+<body>
+
+<div id="page1" class="container">
+    <img src="1.png" alt="歡迎圖片">
+    <h1>您好，歡迎參加螃蟹遊戲！</h1>
+    <p>請輸入您的邀請碼：</p>
+    <input type="text" id="inviteCode" placeholder="邀請碼">
+    <button onclick="checkInviteCode()">提交</button>
+</div>
+
+<div id="wrong" class="container" style="display: none;">
+    <h1>你來錯攝影棚囖！</h1>
+    <button onclick="navigateTo('page1')">返回</button>
+</div>
+
+<div id="page2" class="container" style="display: none;">
+    <img src="2.png" alt="邀請碼確認圖片">
+    <h1>您好！邀請碼已確認！煒棠也真的很帥！</h1>
+    <button onclick="navigateTo('page4')">我知道了</button>
+    <button onclick="navigateTo('page4_1')">我不想玩了哭哭</button>
+</div>
+
+<div id="page4" class="container" style="display: none;">
+    <h1>歡迎參加我們的螃蟹遊戲，看來你已經有所覺悟了</h1>
+    <button onclick="navigateTo('page5')">煒棠好帥</button>
+    <button onclick="navigateTo('page5')">煒棠好帥</button>
+</div>
+
+<div id="page4_1" class="container" style="display: none;">
+    <h1>真的不玩了嗎 ( ´•̥̥̥ω•̥̥̥ )</h1>
+    <button onclick="navigateTo('page4_2')">煒棠好帥</button>
+    <button onclick="navigateTo('page4_2')">煒棠好帥</button>
+    <button onclick="navigateTo('page4_2')">煒棠好帥</button>
+</div>
+
+<div id="page4_2" class="container" style="display: none;">
+    <h1>好啦我知道煒棠很帥，您都這麼客氣了，就讓你繼續玩吧</h1>
+    <button onclick="navigateTo('page4')">繼續</button>
+</div>
+
+<div id="page5" class="container" style="display: none;">
+    <img src="3.png" alt="螃蟹遊戲圖片">
+    <h1>螃蟹游戲的第一個關卡，考驗的是你的運氣，畢竟運氣也是實力的一部分</h1>
+    <p>請與螃蟹守衛進行「螃蟹螯、石頭、布」的戰鬥！</p>
+    <button onclick="runGame('螃蟹螯')">螃蟹螯</button>
+    <button onclick="runGame('石頭')">石頭</button>
+    <button onclick="runGame('布')">布</button>
+</div>
+
+<div id="page6" class="container" style="display: none;">
+    <img src="4.png" alt="秘技挑戰圖片">
+    <h1>請親關主五下以獲得打敗螃蟹王的秘技！</h1>
+    <p>輸入秘技：</p>
+    <input type="text" id="secretSkill" placeholder="秘技">
+    <button onclick="checkSecretSkill()">提交</button>
+</div>
+
+<div id="page6_1" class="container" style="display: none;">
+    <h1>嘿嘿 亂打秘技，是不是想投機取巧呀</h1>
+    <button onclick="navigateTo('page6')">傳送回去上一頁</button>
+</div>
+
+<div id="page7" class="container" style="display: none;">
+    <img src="5.png" alt="挑戰賽圖片">
+    <h1>恭喜你打敗了螃蟹王，距離獲得勝利近在咫尺！</h1>
+    <p>接下來是實體挑戰賽，請跟關主領取遊戲指南，並且與關主進行比拼，獲勝之後將獲得通關碼！啊如果贏不了，你也能隨便猜猜看通關碼是什麼，畢竟反正都輸了嘛</p>
+    <p>通關碼：</p>
+    <input type="text" id="passcode" placeholder="通關碼">
+    <button onclick="checkPasscode()">提交</button>
+</div>
+
+<div id="page8" class="container" style="display: none;">
+    <img src="6.png" alt="勝利圖片">
+    <h1>恭喜你，勝利僅在一步之遙！</h1>
+    <p>完成這關之後，你將獲得通往勝利的大門，獲得終極獎勵！</p>
+    <p>關主將提供你一些提示，請從提示中猜出對應的位置與地點，完成之後將獲得關主提供的通關碼！</p>
+    <p>通關碼：</p>
+    <input type="text" id="passcode2" placeholder="通關碼">
+    <button onclick="checkPasscode2()">提交</button>
+</div>
+
+<div id="page8_1" class="container" style="display: none;">
+    <h1>嘿嘿 又亂打通關碼，是不是想投機取巧呀</h1>
+    <img src="7.png" alt="通關碼圖片">
+    <p>親三下關主並點選下方傳送門：</p>
+    <button onclick="navigateTo('page8_2')">傳送門</button>
+</div>
+
+<div id="page8_2" class="container" style="display: none;">
+    <h1>嘿嘿重來！再比一次才放過你！</h1>
+    <button onclick="navigateTo('page7')">煒棠好帥</button>
+    <button onclick="navigateTo('page7')">關主好帥</button>
+</div>
+
+<div id="page9" class="container" style="display: none;">
+    <img src="9.png" alt="獎勵圖片">
+    <h1>恭喜你！成功破解了螃蟹游戲，接下來螃蟹之神將提供你永遠的祝福，請從以下選項中選擇一個作爲你的獎勵：</h1>
+    <button onclick="navigateTo('page10')">永恆榮耀 （推薦）</button>
+    <button onclick="navigateTo('page10_1')">財富之泉</button>
+    <button onclick="navigateTo('page10_2')">時空凝滯</button>
+</div>
+
+<div id="page10" class="container" style="display: none;">
+    <h1>非常感謝您的參與！您做了最正確的選擇，永恆榮耀將永遠照耀著你！</h1>
+    <button onclick="navigateTo('page11')">遊戲結束！</button>
+</div>
+
+<div id="page10_1" class="container" style="display: none;">
+    <h1>你確定要選擇財富之泉嗎？ 永恆榮耀，才是您的歸屬！！</h1>
+    <button onclick="navigateTo('page10')">選擇永恆榮耀</button>
+    <button onclick="navigateTo('page10')">choose 永恆榮耀</button>
+    <button onclick="navigateTo('page10')">給我永恆榮耀</button>
+</div>
+
+<div id="page10_2" class="container" style="display: none;">
+    <h1>你確定要選擇時間凝滯嗎？ 永恆榮耀，才是您的歸屬！！</h1>
+    <button onclick="navigateTo('page10')">選擇永恆榮耀</button>
+    <button onclick="navigateTo('page10')">choose 永恆榮耀</button>
+    <button onclick="navigateTo('page10')">給我永恆榮耀</button>
+</div>
+
+<div id="page11" class="container" style="display: none;">
+    <h1>欸 結束了 那你幹嘛還按？</h1>
+    <button onclick="navigateTo('page12')">我要全部</button>
+    <button onclick="navigateTo('page12')">我要shampoo</button>
+</div>
+
+<div id="page12" class="container" style="display: none;">
+    <h1>好啦 請跟關主領取您的最終謎題，請跟關主說暗號：煒棠最帥</h1>
+    <button onclick="navigateTo('page13')">遊戲結束！</button>
+</div>
+
+<div id="page13" class="container" style="display: none;">
+    <img src="12.jpg" alt="祝賀圖片">
+    <h1>生日快樂baby，love you &lt;3</h1>
+</div>
+
+<div id="gameOver" class="container" style="display: none;">
+    <img src="8.png" alt="失敗圖片">
+    <h1>哎呀 怎麽在第一關就失敗了呢？</h1>
+    <h2>是否需要關主從旁協助？</h2>
+    <button onclick="navigateTo('page6')">救救我</button>
+</div>
+
+<div id="page9_1" class="container" style="display: none;">
+    <h1>齁不要再亂選了，這次抱關主十秒然後說煒棠好帥三次，即可獲得通關碼，前往勝利的門票！</h1>
+    <button onclick="navigateTo('page9')">回到挑戰</button>
+</div>
+
+<script>
+    let defeatCount = 0;
+
+    function navigateTo(page) {
+        document.querySelectorAll('.container').forEach(container => {
+            container.style.display = 'none';
+        });
+        document.getElementById(page).style.display = 'block';
+    }
+
+    function checkInviteCode() {
+        const code = document.getElementById("inviteCode").value.trim();
+        if (code === "handsomeweitarng") {
+            navigateTo('page2');
+        } else {
+            navigateTo('wrong');
+        }
+    }
+
+    function runGame(playerChoice) {
+        const choices = ['螃蟹螯', '石頭', '布'];
+        const randomChoice = choices[Math.floor(Math.random() * choices.length)];
+        let loseMessage;
+
+        switch (playerChoice) {
+            case '螃蟹螯':
+                loseMessage = '螃蟹王使用「螃蟹大石頭」擊敗了你！';
+                break;
+            case '石頭':
+                loseMessage = '螃蟹王使用「超大螃蟹布布」擊敗了你！';
+                break;
+            case '布':
+                loseMessage = '螃蟹王使用「珍味閣螃蟹螯」擊敗了你！';
+                break;
+        }
+
+        // 顯示遊戲失敗訊息
+        alert(loseMessage);
+        defeatCount++;
+
+        if (defeatCount === 3) {
+            navigateTo('gameOver'); // 跳轉到新的頁面顯示遊戲失敗的頁面
+        }
+    }
+
+    function checkSecretSkill() {
+        const skill = document.getElementById("secretSkill").value.trim();
+        if (skill === "0108") {
+            navigateTo('page7');
+        } else {
+            navigateTo('page6_1');
+        }
+    }
+
+    function checkPasscode() {
+        const code = document.getElementById("passcode").value.trim();
+        if (code === "prettybaby") {
+            navigateTo('page8');
+        } else {
+            navigateTo('page8_1');
+        }
+    }
+
+    function checkPasscode2() {
+        const code = document.getElementById("passcode2").value.trim();
+        if (code === "birthdaybaby") {
+            navigateTo('page9');
+        } else {
+            navigateTo('page9_1');
+        }
+    }
+
+    navigateTo('page1'); // 頁面初始化時顯示主頁
+</script>
+
+</body>
+</html>
